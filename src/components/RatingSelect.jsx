@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+
+import FeedbackContext from '../context/FeedbackContext';
 
 function RatingSelect({ select }) {
   const [selected, setSelected] = useState(10);
+
+  //After creating Context
+  const { feedbackEdit } = useContext(FeedbackContext);
 
   const handleChange = (e) => {
     //bydefalut the type is Sting
@@ -9,6 +14,12 @@ function RatingSelect({ select }) {
     select(+e.currentTarget.value);
     setSelected(+e.currentTarget.value);
   };
+
+  useEffect(() => {
+    if (feedbackEdit.edit === true) {
+      setSelected(feedbackEdit.item.rating);
+    }
+  }, [feedbackEdit]);
 
   // simplified version
   return (
